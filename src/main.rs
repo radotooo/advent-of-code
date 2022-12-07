@@ -1,13 +1,13 @@
 #![allow(dead_code)]
 #![allow(unused_variables)]
 
+use itertools::Itertools;
 use std::{collections::HashSet, fs::File, io::Read};
 
 fn main() {
-    let data = read_file("day4.txt");
-    let part1 = part1(data.as_str());
-    let part2 = part2(data.as_str());
-    println!("{part1}{part2}")
+    let data = read_file("day5.txt");
+    let part1 = day5(data.as_str());
+    println!("{part1}");
 }
 
 // day 1
@@ -122,7 +122,7 @@ fn parse_ascii(letter: char) -> u32 {
 }
 
 // day 4
-fn part1(data: &str) -> i32 {
+fn day4_part1(data: &str) -> i32 {
     let mut result = 0;
 
     data.lines().for_each(|line| {
@@ -136,7 +136,7 @@ fn part1(data: &str) -> i32 {
     result
 }
 
-fn part2(data: &str) -> i32 {
+fn day4_part2(data: &str) -> i32 {
     let mut result = 0;
 
     data.lines().for_each(|line| {
@@ -161,6 +161,55 @@ fn part2(data: &str) -> i32 {
     });
 
     result
+}
+
+// day 5
+fn day5(data: &str) -> String {
+    let mut stacks: Vec<Vec<char>> = vec![vec![]; 9];
+
+    let (stack_data, move_data) = data.split_once("\n\n").unwrap();
+
+    for line in stack_data.lines().rev() {
+        let char: Vec<char> = line.chars().collect();
+
+        for i in 0..stacks.len() {
+            let c = char[i * 4 + 1];
+            if c.is_ascii_alphabetic() {
+                stacks[i].push(c as char);
+            }
+        }
+    }
+
+    for line in move_data.lines() {
+        let commands = &line
+            .split_whitespace()
+            .filter_map(|x| x.parse::<usize>().ok())
+            .collect::<Vec<_>>();
+
+        let count = commands[0];
+        let from = commands[1];
+        let to = commands[2];
+
+        // part1
+        // for _ in 0..count {
+        //     let item = stacks[&from - 1].pop().unwrap();
+        //     stacks[&to - 1].push(item);
+        // }
+
+        // part2
+        let mut temp = Vec::new();
+
+        for i in 0..count {
+            let item = stacks[from - 1].pop().unwrap();
+            temp.push(item);
+        }
+
+        for char in temp.iter().rev() {
+            stacks[&to - 1].push(*char);
+        }
+    }
+
+    stacks.iter().map(|s| s.last().unwrap()).join("")
 }
 
 // utils
