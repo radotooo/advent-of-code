@@ -5,8 +5,9 @@ use itertools::Itertools;
 use std::{collections::HashSet, fs::File, io::Read};
 
 fn main() {
-    let data = read_file("day5.txt");
-    let part1 = day5(data.as_str());
+    let data = read_file("day6.txt");
+    let part1 = day6(data.as_str());
+
     println!("{part1}");
 }
 
@@ -210,6 +211,28 @@ fn day5(data: &str) -> String {
     }
 
     stacks.iter().map(|s| s.last().unwrap()).join("")
+}
+
+// day 6
+fn day6(data: &str) -> usize {
+    let vec: Vec<char> = data.chars().collect();
+    let mut first_four: Vec<char> = vec[0..4].to_vec();
+
+    for (i, val) in vec.iter().enumerate() {
+        first_four.remove(0);
+        first_four.push(*val);
+
+        if !has_dublicates(&first_four) {
+            return i + 1;
+        }
+    }
+
+    0
+}
+
+fn has_dublicates(data: &[char]) -> bool {
+    data.iter()
+        .any(|item| data.iter().filter(|&x| x == item).count() > 1)
 }
 
 // utils
