@@ -1,5 +1,10 @@
 package utils
 
+import (
+	"fmt"
+	"strconv"
+)
+
 func ReverseString(s string) string {
 	rns := []rune(s)
 
@@ -9,4 +14,13 @@ func ReverseString(s string) string {
 	}
 
 	return string(rns)
+}
+
+func PrintMatrix(matrix [][]rune) {
+    for i := 0; i < len(matrix); i++ {
+        for j := 0; j < len(matrix[i]); j++ {
+            fmt.Printf(strconv.QuoteRune(matrix[i][j]))
+        }
+        fmt.Println()
+    }
 }
