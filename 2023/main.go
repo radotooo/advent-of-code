@@ -1,9 +1,9 @@
 package main
 
 import (
-  "github/radotooo/advent-of-code/src/day3"
+  "github/radotooo/advent-of-code/src/day4"
 )
 
 func main() {
-  day3.Solve()
+  day4.Solve()
 }
