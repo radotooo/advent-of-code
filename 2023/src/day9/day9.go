@@ -5,6 +5,7 @@ import (
 	"github/radotooo/advent-of-code/src/utils"
 	"log"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -19,6 +20,7 @@ func Solve() {
 	fileContent := string(bytesRead)
 
 	fmt.Println(partOne(strings.Split(fileContent, "\n")))
+	fmt.Println(partTwo(strings.Split(fileContent, "\n")))
 }
 
 func partOne(lines []string) int {
@@ -37,6 +39,39 @@ func partOne(lines []string) int {
 			ints[i], _ = strconv.Atoi(s)
 		}
 
+    result += calculate(ints)
+	}
+
+	return result
+}
+
+
+func partTwo(lines []string) int {
+	result := 0
+
+	for _, line := range lines {
+		nums := strings.Fields(line)
+
+		if line == "" {
+			continue
+		}
+
+		ints := make([]int, len(nums))
+
+		for i, s := range nums {
+			ints[i], _ = strconv.Atoi(s)
+		}
+
+    slices.Reverse(ints)
+    result += calculate(ints)
+	}
+
+	return result
+}
+
+func calculate(ints []int) int{
+     result := 0
+
 		for !utils.Every(ints, func(num int) bool {
 			return num == 0
 		}) {
@@ -54,7 +89,6 @@ func partOne(lines []string) int {
 
 			ints = temp
 		}
-	}
 
-	return result
+    return result
 }
